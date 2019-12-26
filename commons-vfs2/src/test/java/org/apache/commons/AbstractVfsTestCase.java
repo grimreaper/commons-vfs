@@ -42,24 +42,6 @@ public abstract class AbstractVfsTestCase extends TestCase {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
-     * Returns the name of the package containing a class.
-     *
-     * @return The . delimited package name, or an empty string if the class is in the default package.
-     */
-    public static String getPackageName(final Class<?> clazz) {
-        final Package pkg = clazz.getPackage();
-        if (null != pkg) {
-            return pkg.getName();
-        }
-
-        final String name = clazz.getName();
-        if (-1 == name.lastIndexOf(".")) {
-            return "";
-        }
-        return name.substring(0, name.lastIndexOf("."));
-    }
-
-    /**
      * Locates a test resource, and asserts that the resource exists
      *
      * @param name path of the resource, relative to this test's base directory.
@@ -79,7 +61,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
         if (mustExist) {
             assertTrue("Test file \"" + file + "\" does not exist.", file.exists());
         } else {
-            assertTrue("Test file \"" + file + "\" should not exist.", !file.exists());
+            assertFalse("Test file \"" + file + "\" should not exist.", file.exists());
         }
 
         return file;
@@ -136,7 +118,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
     /**
      * Makes a file canonical
      */
-    public static File getCanonicalFile(final File file) {
+    private static File getCanonicalFile(final File file) {
         try {
             return file.getCanonicalFile();
         } catch (final IOException e) {
@@ -165,7 +147,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
     /**
      * Returns the cause of an exception.
      */
-    public static Throwable getCause(final Throwable throwable) {
+    private static Throwable getCause(final Throwable throwable) {
         try {
             final Method method = throwable.getClass().getMethod("getCause", (Class[]) null);
             return (Throwable) method.invoke(throwable, (Object[]) null);
@@ -184,7 +166,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
     /**
      * Asserts that an exception contains the expected message.
      */
-    public static void assertSameMessage(final String code, final Object[] params, final Throwable throwable) {
+    private static void assertSameMessage(final String code, final Object[] params, final Throwable throwable) {
         Object[] parmArray = params;
         if (throwable instanceof FileSystemException) {
             final FileSystemException fse = (FileSystemException) throwable;
@@ -214,7 +196,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
     /**
      * Asserts that an exception contains the expected message.
      */
-    public static void assertSameMessage(final String code, final Object param, final Throwable throwable) {
+    protected static void assertSameMessage(final String code, final Object param, final Throwable throwable) {
         assertSameMessage(code, new Object[] { param }, throwable);
     }
 

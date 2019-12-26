@@ -244,7 +244,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         }
 
         // Compare
-        assertTrue("same binary content", Arrays.equals(expectedBin, outstr.toByteArray()));
+        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
     }
 
     /**
@@ -281,7 +281,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         }
 
         // Compare
-        assertTrue("same binary content", Arrays.equals(expectedBin, outstr.toByteArray()));
+        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
     }
 
     /**
